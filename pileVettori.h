@@ -1,7 +1,9 @@
 #ifndef PILEVETTORI_H
 #define PILEVETTORI_H
 
+#include <iostream>
 #include "pile.h"
+using namespace std;
 
 #define MAX 50
 
@@ -19,6 +21,10 @@ public:
     valueType top() const;
     void pop();
     void push(valueType);
+
+    void pushWithoutDuplicate(valueType);
+
+    void print();
 
 private:
     valueType *elements;
@@ -73,11 +79,40 @@ void vectorStack<T>::pop(){
 
 template <class T>
 void vectorStack<T>::push(vectorStack<T>::valueType elem) {
-    for(int i = 0; i < lenght; i++) {
-        elements[i+1] = elements[i];
+
+    for(int i = lenght; i != 0; i--) {
+        elements[i] = elements[i-1];
     }
 
     elements[0] = elem;
+    lenght++;
+}
+
+template <class T>
+void vectorStack<T>::pushWithoutDuplicate(vectorStack<T>::valueType elem) {
+    bool check = false;
+
+    for(int i = 0; i < lenght; i++) {
+        if(elements[i] == elem) {
+            check = true;
+        }
+    }
+
+    if(!check) {
+        push(elem);
+    }
+}
+
+template <class T>
+void vectorStack<T>::print() {
+
+    cout << "[";
+    for(int i = 0; i < lenght; i++) {
+        cout << elements[i] << ", ";
+    }
+    cout << "]";
+
+    return;
 }
 
 #endif // PILEVETTORI_H
